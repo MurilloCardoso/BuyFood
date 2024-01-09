@@ -9,8 +9,12 @@ Tecnologias Utilizadas: O aplicativo foi construído utilizando o Jetpack Compos
 
 Aprendizado Contínuo: Este projeto faz parte do meu compromisso contínuo de aprendizado e crescimento profissional. Cada desafio encontrado durante o desenvolvimento contribui para aprimorar minhas habilidades em Kotlin, Jetpack Compose, arquitetura de aplicativos Android e integração com APIs.
 
-Como Contribuir
-Se você quiser contribuir para o desenvolvimento do FoodApp, sinta-se à vontade para abrir problemas, enviar solicitações de pull request ou fornecer feedback sobre qualquer aspecto do aplicativo. Todas as contribuições e sugestões são bem-vindas.
+Instalação e Execução
+Para testar o FoodApp localmente, siga estas etapas:
+
+Clone o repositório: git clone https://github.com/seu-usuario/FoodApp.git
+Abra o projeto no Android Studio.
+Execute o aplicativo em um emulador ou dispositivo Android.
 
 Próximos Passos
 Este projeto é parte integrante do meu portfólio de desenvolvimento de aplicativos Android. Estou comprometido em continuar expandindo e aprimorando o FoodApp, incorporando novos recursos e explorando tecnologias emergentes.
