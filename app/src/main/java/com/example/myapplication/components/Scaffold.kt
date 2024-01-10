@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
@@ -29,18 +30,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.myapplication.FoodScreen
 import com.example.myapplication.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScaffoldExample(onNavigateToFriends: () -> Unit, body: @Composable () -> Unit) {
+fun ScaffoldExample( navController: NavHostController , body: @Composable () -> Unit  ) {
     Scaffold(
-        bottomBar = { BottomAppBarWithIconAndText(onNavigateToFriends) },
-        //topBar = { TopAppBarWithIconAndText(onNavigateToFriends) }
+        bottomBar = { BottomAppBarWithIconAndText(navController) },
+
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -54,26 +57,33 @@ fun ScaffoldExample(onNavigateToFriends: () -> Unit, body: @Composable () -> Uni
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarWithIconAndText() {
-
-    TopAppBar(actions = {
-        IconButton(onClick = { /* do something */ }) {
-            Icon(
-                imageVector = Icons.Filled.Notifications,
-                contentDescription = "Localized description"
-            )
+fun CupcakeAppBar(
+    currentScreen: FoodScreen,
+    canNavigateBack: Boolean,
+    navigateUp: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    TopAppBar(
+        title = { Text(stringResource(currentScreen.title)) },
+        colors = TopAppBarDefaults.mediumTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        ),
+        modifier = modifier,
+        navigationIcon = {
+            if (canNavigateBack) {
+                IconButton(onClick = navigateUp) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "awd"
+                    )
+                }
+            }
         }
-    }, title = {
-        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-            Text("Bem-vindo",color= colorResource(id = R.color.DarkGreen), fontWeight = FontWeight.SemiBold)
-        }
-    })
-
-
+    )
 }
 
 @Composable
-fun BottomAppBarWithIconAndText(onNavigateToFriends: () -> Unit) {
+fun BottomAppBarWithIconAndText(navController: NavHostController) {
 
     BottomAppBar(
         modifier = Modifier
@@ -89,7 +99,7 @@ fun BottomAppBarWithIconAndText(onNavigateToFriends: () -> Unit) {
         ) {
             Column(
                 Modifier
-                    .clickable(onClick = onNavigateToFriends)
+                    .clickable(onClick = { navController.navigate("home") })
                     .weight(1f)
                     .fillMaxHeight(),
                 // ajuste o espaçamento conforme necessário
@@ -110,7 +120,7 @@ fun BottomAppBarWithIconAndText(onNavigateToFriends: () -> Unit) {
 
             Column(
                 Modifier
-                    .clickable(onClick = onNavigateToFriends)
+                    .clickable(onClick = { navController.navigate("menu") })
                     .weight(1f)
                     .fillMaxHeight(),
                 // ajuste o espaçamento conforme necessário
@@ -131,7 +141,7 @@ fun BottomAppBarWithIconAndText(onNavigateToFriends: () -> Unit) {
             }
             Column(
                 Modifier
-                    .clickable(onClick = onNavigateToFriends)
+                    .clickable(onClick = { navController.navigate("cart") })
                     .weight(1f)
                     .fillMaxHeight(),
                 // ajuste o espaçamento conforme necessário

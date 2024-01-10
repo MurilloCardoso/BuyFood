@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,7 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.border
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.getValue
 
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,12 +32,20 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.components.CupcakeAppBar
 import com.example.myapplication.components.ScaffoldExample
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.pages.HomePage
 import com.example.myapplication.pages.MenuPage
 import com.example.myapplication.pages.ScrollBoxesSmooth
+enum class FoodScreen(@StringRes val title: Int) {
+    Home(title = R.string.route_home),
+    Menu(title = R.string.route_menu),
+    Cart(title = R.string.route_cart),
+    Buy(title = R.string.route_buy)
+}
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,22 +61,43 @@ class MainActivity : ComponentActivity() {
 }
 
 data class Message(val author: String, val body: String)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyAppNavHost(
-    modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
-    startDestination: String = "profile"
+
+
+
+
 ) {
-    NavHost(
-        modifier = modifier,
-        navController = navController,
-        startDestination = startDestination
-    ) {
-        composable("profile") {
-            ScaffoldExample(onNavigateToFriends = { navController.navigate("friendsList") }) { HomePage() }
+    val navController = rememberNavController()
+    // Get current back stack entry
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    // Get the name of the current screen
+    val currentScreen = FoodScreen.valueOf(
+        backStackEntry?.destination?.route ?: FoodScreen.Home.name
+    )
+
+    Scaffold(
+        topBar = {
+            CupcakeAppBar(
+                currentScreen = currentScreen,
+                canNavigateBack = navController.previousBackStackEntry != null,
+                navigateUp = { navController.navigateUp() }
+            )
         }
-        composable("friendslist") {  ScaffoldExample( onNavigateToFriends = { navController.navigate("profile") },){ MenuPage() } }
-        composable("buy"){ScaffoldExample( onNavigateToFriends = { navController.navigate("home") },){ ScrollBoxesSmooth() }}
+    ) { innerPadding ->
+        NavHost(
+
+            navController = navController,
+            startDestination = FoodScreen.Home.name,
+            modifier = Modifier.padding(innerPadding)
+            ) {
+            composable(route =FoodScreen.Home.name) {
+                ScaffoldExample(navController = navController) { HomePage(navController) }
+            }
+            composable(route= FoodScreen.Menu.name) { ScaffoldExample(navController) { MenuPage() } }
+            composable(route= FoodScreen.Buy.name) { ScaffoldExample(navController) { ScrollBoxesSmooth(navController) } }
+        }
     }
 }
 

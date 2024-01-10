@@ -44,29 +44,26 @@ import com.example.myapplication.components.FilledCardExample
 import com.example.myapplication.components.ItemCatalog
 import com.example.myapplication.components.ItemShopView
 import com.example.myapplication.components.SimpleOutlinedTextFieldSample
-import com.example.myapplication.components.TopAppBarWithIconAndText
+
 import androidx.compose.material3.*
 import androidx.compose.runtime.LaunchedEffect
+import androidx.navigation.NavHostController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomePage(){
+fun HomePage(navController: NavHostController){
     val state = rememberScrollState()
 
 
-    Scaffold(
 
-        topBar = { TopAppBarWithIconAndText() }
-    ) { innerPadding ->
         Surface {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
                 .verticalScroll(state)
         ) {
 
-                BodyContent()
+                BodyContent(navController)
 
         }
         }
@@ -78,12 +75,12 @@ fun HomePage(){
 //        ) {
 //            BodyContent()
 //        }
-    }
+
 }
 
-@Preview
+
 @Composable
-fun BodyContent() {
+fun BodyContent(navController: NavHostController) {
 
     val catalogData = listOf(
         ItemCatalog("Sushi", R.drawable.sushi,55.0,"Sushi"),
@@ -116,7 +113,7 @@ fun BodyContent() {
                         .padding(end = 16.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    ItemShopView(item, navController.navigate("profile")  )
+                    ItemShopView(item,  navController)
                 }
             }
         }
@@ -140,7 +137,7 @@ fun BodyContent() {
                         .padding(end = 16.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    ItemShopView(item, {})
+                    ItemShopView(item, navController)
                 }
             }
         }
