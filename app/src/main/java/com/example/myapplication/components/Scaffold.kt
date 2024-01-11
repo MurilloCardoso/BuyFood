@@ -33,6 +33,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.myapplication.FoodScreen
@@ -45,6 +46,22 @@ fun ScaffoldExample( navController: NavHostController , body: @Composable () -> 
         bottomBar = { BottomAppBarWithIconAndText(navController) },
 
     ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            body()
+        }
+    }
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ScaffoldAdd( navController: NavHostController , body: @Composable () -> Unit, catalog:ItemCatalog ) {
+    Scaffold(
+        bottomBar = { BottomAppBarWithButton(navController,catalog) },
+
+        ) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding),
@@ -82,6 +99,34 @@ fun CupcakeAppBar(
     )
 }
 
+@Composable
+fun BottomAppBarWithButton(navController: NavHostController,catalog:ItemCatalog) {
+
+    BottomAppBar(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(60.dp),
+        containerColor = Color.Transparent
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+
+        ) {
+
+           Button(
+
+               modifier = Modifier
+                   .fillMaxWidth(),
+               onClick = { /*TODO*/ }) {
+               Text("Add to Cart ("+catalog.price+")")
+           }
+
+
+       
+        }
+    }
+}
 @Composable
 fun BottomAppBarWithIconAndText(navController: NavHostController) {
 

@@ -54,8 +54,6 @@ import androidx.navigation.NavHostController
 fun HomePage(navController: NavHostController){
     val state = rememberScrollState()
 
-
-
         Surface {
         Column(
             modifier = Modifier

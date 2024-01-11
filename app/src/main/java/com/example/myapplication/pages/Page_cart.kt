@@ -61,18 +61,13 @@ import com.example.myapplication.components.ScaffoldAdd
 
 
 @Composable
-fun pageBuy(navController: NavHostController, catalog:ItemCatalog){
+fun PageCart(navController: NavHostController, catalog:ItemCatalog){
     ScaffoldAdd(navController,{ScrollBoxesSmooth(navController )},catalog)
 }
 
-
-
-
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScrollBoxesSmooth(navController: NavHostController) {
+fun BodyContentCart(navController: NavHostController) {
     // Smoothly scroll 100px on first composition
 
     val catalogData = listOf(
@@ -131,44 +126,44 @@ fun ScrollBoxesSmooth(navController: NavHostController) {
                                 .background(colorResource(id = R.color.DarkGreen)),
                             onClick = { /*TODO*/ })
                         {Icon(
-                                painter= painterResource(id = R.drawable.baseline_add_24),
-                                contentDescription = "Menu",
-                                modifier = Modifier.size(28.dp))
-                            }
-                        }
-                        Text(
-                            text = "1", textAlign = TextAlign.Center,
-                            style = TextStyle(
-                                fontSize = 25.sp,
-
-                                ),
-                        )
-                        IconButton(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .clip(CircleShape)
-                                .border(1.5.dp, colorResource(id = R.color.DarkGreen), CircleShape)
-                                .background(colorResource(id = R.color.DarkGreen)),
-                            onClick = { /*TODO*/ }) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.baseline_horizontal_rule_24),
-                                contentDescription = "Menu",
-                                modifier = Modifier.size(25.dp)
-                            )
+                            painter= painterResource(id = R.drawable.baseline_add_24),
+                            contentDescription = "Menu",
+                            modifier = Modifier.size(28.dp))
                         }
                     }
                     Text(
-                        text = "R$23.00",
-                        color = colorResource(id = R.color.DarkGreen),
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(start = 25.dp),
+                        text = "1", textAlign = TextAlign.Center,
                         style = TextStyle(
-                            fontSize = 20.sp,
-                        ),
+                            fontSize = 25.sp,
+
+                            ),
                     )
-
-
+                    IconButton(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                            .border(1.5.dp, colorResource(id = R.color.DarkGreen), CircleShape)
+                            .background(colorResource(id = R.color.DarkGreen)),
+                        onClick = { /*TODO*/ }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.baseline_horizontal_rule_24),
+                            contentDescription = "Menu",
+                            modifier = Modifier.size(25.dp)
+                        )
+                    }
                 }
+                Text(
+                    text = "R$23.00",
+                    color = colorResource(id = R.color.DarkGreen),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(start = 25.dp),
+                    style = TextStyle(
+                        fontSize = 20.sp,
+                    ),
+                )
+
+
+            }
             Text(
                 text = "Ingredientes",
                 color = Color.Black, fontWeight = FontWeight.Bold,
@@ -182,10 +177,10 @@ fun ScrollBoxesSmooth(navController: NavHostController) {
             Column {
                 catalogData.forEach { message ->
                     Divider()
-                   Text(message.itemName)
+                    Text(message.itemName)
                 }
-            }
             }
         }
     }
+}
 

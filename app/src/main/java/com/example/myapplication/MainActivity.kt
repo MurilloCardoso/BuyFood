@@ -35,11 +35,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.components.CupcakeAppBar
+import com.example.myapplication.components.ItemCatalog
+import com.example.myapplication.components.ScaffoldAdd
 import com.example.myapplication.components.ScaffoldExample
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.pages.HomePage
 import com.example.myapplication.pages.MenuPage
 import com.example.myapplication.pages.ScrollBoxesSmooth
+import com.example.myapplication.pages.pageBuy
+
 enum class FoodScreen(@StringRes val title: Int) {
     Home(title = R.string.route_home),
     Menu(title = R.string.route_menu),
@@ -96,7 +100,7 @@ fun MyAppNavHost(
                 ScaffoldExample(navController = navController) { HomePage(navController) }
             }
             composable(route= FoodScreen.Menu.name) { ScaffoldExample(navController) { MenuPage() } }
-            composable(route= FoodScreen.Buy.name) { ScaffoldExample(navController) { ScrollBoxesSmooth(navController) } }
+            composable(route= FoodScreen.Buy.name) { pageBuy(navController, ItemCatalog("Açai", R.drawable.acai,18.50,"Açai")) }
         }
     }
 }
