@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">My Application</string>
-    <string name="route_home">home</string>
-    <string name="route_menu">menu</string>
-    <string name="route_cart">cart</string>
-    <string name="route_buy">buy</string>
+    <string name="route_home">Home</string>
+    <string name="route_menu">Menu</string>
+    <string name="route_cart">Cart</string>
+    <string name="route_buy">Buy</string>
 </resources>

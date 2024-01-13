@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,16 +20,21 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -39,6 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -54,132 +61,115 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.myapplication.R
+import com.example.myapplication.components.BottomAppBarWithButton
 import com.example.myapplication.components.FilledCardExample
 import com.example.myapplication.components.ItemCatalog
 import com.example.myapplication.components.ScaffoldAdd
+import com.example.myapplication.components.addPlus
 
 
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PageCart(navController: NavHostController, catalog:ItemCatalog){
-    ScaffoldAdd(navController,{ScrollBoxesSmooth(navController )},catalog)
+fun PageCart(navController: NavHostController, catalog: ItemCatalog) {
+
+    Scaffold(
+        bottomBar = {
+            BottomAppBar(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    ,
+                containerColor = Color.Transparent
+            ) {
+                Row(
+                    modifier = Modifier.padding(start = 10.dp,end=10.dp),
+
+                    ) {
+
+                    Button( shape = MaterialTheme.shapes.medium,
+                        modifier = Modifier
+                            .fillMaxWidth().height(50.dp)
+                           ,
+                        onClick = { /*TODO*/ }) {
+                        Text("Finalizar pedido", fontWeight = FontWeight.Bold, fontSize =  16.sp)
+                    }
+
+                }
+            }
+        },
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            BodyContentCart(navController, catalog)
+        }
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BodyContentCart(navController: NavHostController) {
+fun BodyContentCart(navController: NavHostController, catalog: ItemCatalog) {
     // Smoothly scroll 100px on first composition
 
-    val catalogData = listOf(
-        ItemCatalog("Sushi", R.drawable.sushi,55.0,"Sushi"),
-        ItemCatalog("Hamburguer", R.drawable.hamburguer,30.0,"Hamburguer"),
-        ItemCatalog("Almoço", R.drawable.almoco,20.0,"Almoço"),
-        ItemCatalog("Açai", R.drawable.acai,18.50,"Açai")
-    )
-
-    Surface{
+  val  listColors = listOf(Color.White, Color.DarkGray, Color.Black)
+    val isFinished: Boolean = true
+    Surface() {
 
         Column(
+            verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
-
+                .fillMaxSize()  // Adiciona este modifier para ocupar toda a altura da tela
                 .verticalScroll(rememberScrollState())
+                .background(color = colorResource(id = R.color.grey))
         ) {
-            Box(
-                modifier = Modifier
-                    .background(Color.LightGray)
-                    .fillMaxWidth()
-                    .height(200.dp),
+            if (isFinished) {
+                Column(  ) {
+                    ListItem(
+                        headlineText = { Column(){
+                            Text(text= catalog.itemName.toString(), fontWeight = FontWeight.Bold)
+                            Text(text="R$"+catalog.price.toString(),color= colorResource(id = R.color.DarkGreen))
+                        }},
+                        trailingContent = { addPlus() },
+                        leadingContent = {
+                            Card(shape = RoundedCornerShape(12.dp)){
+                            Image(
+                                painter = painterResource(id = R.drawable.hamburguer),
+                                contentDescription = null,
+                                modifier = Modifier.size(50.dp),   contentScale = ContentScale.FillBounds,
 
-                ) {
-                Image(
-                    painter = painterResource(id = R.drawable.burguerstore),
-                    contentDescription = "a",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-            }
-            Column (modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)){
-
-
-                Text(
-                    text = "Texas Burguer",
-                    color = Color.Black, fontWeight = FontWeight.Bold,
-                    style = TextStyle(
-                        fontSize = 28.sp,
-                    ),
-
-                    textAlign = TextAlign.Center,
-                )
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-
-                        ) {
-                        IconButton(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .clip(CircleShape)
-                                .border(1.5.dp, colorResource(id = R.color.DarkGreen), CircleShape)
-                                .background(colorResource(id = R.color.DarkGreen)),
-                            onClick = { /*TODO*/ })
-                        {Icon(
-                            painter= painterResource(id = R.drawable.baseline_add_24),
-                            contentDescription = "Menu",
-                            modifier = Modifier.size(28.dp))
-                        }
-                    }
-                    Text(
-                        text = "1", textAlign = TextAlign.Center,
-                        style = TextStyle(
-                            fontSize = 25.sp,
-
-                            ),
+                            )
+                            }
+                        },
                     )
-                    IconButton(
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clip(CircleShape)
-                            .border(1.5.dp, colorResource(id = R.color.DarkGreen), CircleShape)
-                            .background(colorResource(id = R.color.DarkGreen)),
-                        onClick = { /*TODO*/ }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_horizontal_rule_24),
-                            contentDescription = "Menu",
-                            modifier = Modifier.size(25.dp)
-                        )
-                    }
-                }
-                Text(
-                    text = "R$23.00",
-                    color = colorResource(id = R.color.DarkGreen),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(start = 25.dp),
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                    ),
-                )
-
-
-            }
-            Text(
-                text = "Ingredientes",
-                color = Color.Black, fontWeight = FontWeight.Bold,
-                style = TextStyle(
-                    fontSize = 25.sp,
-
-                    ),
-
-                textAlign = TextAlign.Center,
-            )
-            Column {
-                catalogData.forEach { message ->
                     Divider()
-                    Text(message.itemName)
+
                 }
             }
+           Column(
+               Modifier
+                   .fillMaxSize()
+                   .background(color = colorResource(id = R.color.white))
+
+           ) {
+               ListItem(modifier = Modifier.height(50.dp),
+                   headlineText = { Text("Subtotal") },
+                   trailingContent = { Text("R$"+catalog.price.toString()) },
+               )
+               Divider()
+               ListItem(modifier = Modifier.height(50.dp),
+                   headlineText = { Text("Taxa de entrega") },
+
+                   trailingContent = { Text("R$"+catalog.price.toString()) },
+               )
+               Divider()
+               ListItem(
+                   modifier = Modifier.height(50.dp),
+                   headlineText = { Text("Total", fontWeight = FontWeight.Bold,fontSize =  18.sp ) },
+                   trailingContent = { Text("R$"+catalog.price.toString(), fontWeight = FontWeight.ExtraBold, fontSize =  18.sp ) },
+               )
+           }
         }
     }
 }

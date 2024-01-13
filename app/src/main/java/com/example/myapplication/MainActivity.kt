@@ -40,7 +40,8 @@ import com.example.myapplication.components.ScaffoldAdd
 import com.example.myapplication.components.ScaffoldExample
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.pages.HomePage
-import com.example.myapplication.pages.MenuPage
+import com.example.myapplication.pages.PageCart
+import com.example.myapplication.pages.PageMenu
 import com.example.myapplication.pages.ScrollBoxesSmooth
 import com.example.myapplication.pages.pageBuy
 
@@ -82,13 +83,7 @@ fun MyAppNavHost(
     )
 
     Scaffold(
-        topBar = {
-            CupcakeAppBar(
-                currentScreen = currentScreen,
-                canNavigateBack = navController.previousBackStackEntry != null,
-                navigateUp = { navController.navigateUp() }
-            )
-        }
+
     ) { innerPadding ->
         NavHost(
 
@@ -99,8 +94,9 @@ fun MyAppNavHost(
             composable(route =FoodScreen.Home.name) {
                 ScaffoldExample(navController = navController) { HomePage(navController) }
             }
-            composable(route= FoodScreen.Menu.name) { ScaffoldExample(navController) { MenuPage() } }
-            composable(route= FoodScreen.Buy.name) { pageBuy(navController, ItemCatalog("Açai", R.drawable.acai,18.50,"Açai")) }
+            composable(route= FoodScreen.Cart.name) {     ScaffoldExample(navController = navController) {PageCart(navController,ItemCatalog("Hamburguer", R.drawable.hamburguer,30.0,"Hamburguer"))} }
+            composable(route= FoodScreen.Menu.name) {   ScaffoldExample(navController = navController) {PageMenu(navController)}  }
+            composable(route= FoodScreen.Buy.name) {  pageBuy(navController, ItemCatalog("Açai", R.drawable.acai,18.50,"Açai")) }
         }
     }
 }

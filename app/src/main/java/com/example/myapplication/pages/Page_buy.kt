@@ -54,15 +54,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.myapplication.R
+import com.example.myapplication.components.CupcakeAppBar
 import com.example.myapplication.components.FilledCardExample
 import com.example.myapplication.components.ItemCatalog
 import com.example.myapplication.components.ScaffoldAdd
-
+import com.example.myapplication.components.addPlus
 
 
 @Composable
 fun pageBuy(navController: NavHostController, catalog:ItemCatalog){
-    ScaffoldAdd(navController,{ScrollBoxesSmooth(navController )},catalog)
+
+    ScaffoldAdd(navController,{ScrollBoxesSmooth(navController,catalog)},catalog)
 }
 
 
@@ -72,17 +74,11 @@ fun pageBuy(navController: NavHostController, catalog:ItemCatalog){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScrollBoxesSmooth(navController: NavHostController) {
+fun ScrollBoxesSmooth(navController: NavHostController,catalog:ItemCatalog) {
     // Smoothly scroll 100px on first composition
 
-    val catalogData = listOf(
-        ItemCatalog("Sushi", R.drawable.sushi,55.0,"Sushi"),
-        ItemCatalog("Hamburguer", R.drawable.hamburguer,30.0,"Hamburguer"),
-        ItemCatalog("Almoço", R.drawable.almoco,20.0,"Almoço"),
-        ItemCatalog("Açai", R.drawable.acai,18.50,"Açai")
-    )
 
-    Surface{
+    Surface {
 
         Column(
             modifier = Modifier
@@ -104,7 +100,10 @@ fun ScrollBoxesSmooth(navController: NavHostController) {
                 )
 
             }
-            Column (modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)){
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
 
 
                 Text(
@@ -116,76 +115,42 @@ fun ScrollBoxesSmooth(navController: NavHostController) {
 
                     textAlign = TextAlign.Center,
                 )
+                Text(
+                    text = "Pão brioche, carne Angus 170g, queijo cheddar, bacon e maionese da casa. ",
+                )
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+
                 ) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-
-                        ) {
-                        IconButton(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .clip(CircleShape)
-                                .border(1.5.dp, colorResource(id = R.color.DarkGreen), CircleShape)
-                                .background(colorResource(id = R.color.DarkGreen)),
-                            onClick = { /*TODO*/ })
-                        {Icon(
-                                painter= painterResource(id = R.drawable.baseline_add_24),
-                                contentDescription = "Menu",
-                                modifier = Modifier.size(28.dp))
-                            }
-                        }
-                        Text(
-                            text = "1", textAlign = TextAlign.Center,
-                            style = TextStyle(
-                                fontSize = 25.sp,
-
-                                ),
-                        )
-                        IconButton(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .clip(CircleShape)
-                                .border(1.5.dp, colorResource(id = R.color.DarkGreen), CircleShape)
-                                .background(colorResource(id = R.color.DarkGreen)),
-                            onClick = { /*TODO*/ }) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.baseline_horizontal_rule_24),
-                                contentDescription = "Menu",
-                                modifier = Modifier.size(25.dp)
-                            )
-                        }
-                    }
                     Text(
                         text = "R$23.00",
                         color = colorResource(id = R.color.DarkGreen),
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(start = 25.dp),
+
                         style = TextStyle(
-                            fontSize = 20.sp,
+                            fontSize = 20.sp, fontWeight = FontWeight.Medium
                         ),
                     )
-
+                    addPlus()
 
                 }
-            Text(
-                text = "Ingredientes",
-                color = Color.Black, fontWeight = FontWeight.Bold,
-                style = TextStyle(
-                    fontSize = 25.sp,
+                Text(
+                    text = "Ingredientes",
+                    color = Color.Black, fontWeight = FontWeight.Bold,
+                    style = TextStyle(
+                        fontSize = 25.sp,
 
-                    ),
+                        ),
 
-                textAlign = TextAlign.Center,
-            )
-            Column {
-                catalogData.forEach { message ->
-                    Divider()
-                   Text(message.itemName)
+                    textAlign = TextAlign.Center,
+                )
+                Column {
+                    Text("" + catalog.itemName)
                 }
-            }
+
             }
         }
     }
-
+}
