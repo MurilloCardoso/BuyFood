@@ -74,6 +74,5 @@ fun BodyContent() {
                 FilledCardExample(item,{} )
             }
         }
-
     }
 }
